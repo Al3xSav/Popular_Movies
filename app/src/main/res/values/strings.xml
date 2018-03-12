@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="images">Image content Description</string>
+
+    <!-- Error Messages -->
+    <string name="no_internet_error">An error has occurred. Please try again by pressing Refresh</string>
+    <string name="no_wifi_error">No Internet Connection Found. Use your data or wifi and try again!!</string>
+    <string name="no_wifi_button">Retry</string>
+
+    <!-- Preferences -->
+    <string name="most_popular">Most Popular</string>
+    <string name="top_rated">Top Rated</string>
+
+    <!-- Labels in Movie Details -->
+    <string name="label_rating">Rating: </string>
+    <string name="label_date">Release Date: </string>
+    <string name="label_overview">Overview</string>
+
+    <!-- Hints in Movie Details -->
+    <string name="movie_title_hint">Movie Title</string>
+    <string name="movie_rating_hint">X.XX</string>
+    <string name="movie_date_hint">DD/MM/YYYY</string>
+    <string name="movie_overview_hint">Movie Synopsis</string>
+</resources>

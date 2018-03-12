@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorBackgroundDetails">
+
+            <TextView
+                android:id="@+id/movie_title_text_view"
+                style="@style/DetailsScreenInfo"
+                android:hint="@string/movie_title_hint"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="25sp" />
+
+            <LinearLayout
+                android:id="@+id/linear_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_details"
+                    android:layout_width="180dp"
+                    android:layout_height="190dp"
+                    android:contentDescription="@string/images" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/label_rating_text_view"
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_rating" />
+
+                    <TextView
+                        android:id="@+id/rating_text_view"
+                        style="@style/DetailsScreenInfo"
+                        android:drawableStart="@drawable/rating_star_small"
+                        android:drawablePadding="8dp"
+                        android:hint="@string/movie_rating_hint" />
+
+                    <TextView
+                        android:id="@+id/label_date_text_view"
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_date" />
+
+                    <TextView
+                        android:id="@+id/date_text_view"
+                        style="@style/DetailsScreenInfo"
+                        android:hint="@string/movie_date_hint" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/small_padding_5"
+                android:layout_marginBottom="@dimen/space_10"/>
+
+            <TextView
+                android:id="@+id/label_synopsis_text_view"
+                style="@style/DetailsScreenLabels"
+                android:text="@string/label_overview" />
+
+            <TextView
+                android:id="@+id/synopsis_text_view"
+                style="@style/DetailsScreenInfo"
+                android:hint="@string/movie_overview_hint" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
