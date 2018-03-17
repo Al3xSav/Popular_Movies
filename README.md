@@ -24,6 +24,4 @@ In this stage you’ll build the core experience of your movies app.
 * Fetch data from themovieDB API
 
 ## API KEY 
- * 5d3a982ae67e166c4444515e2b2632b3
- * ### Path
- 	 - utils -> NetworkUtils -> API_CONS
+ * Parse you own in to gradle.properties
