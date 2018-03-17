@@ -3,17 +3,17 @@
     <string name="images">Image content Description</string>
 
     <!-- Error Messages -->
-    <string name="no_internet_error">An error has occurred. Please try again by pressing Refresh</string>
-    <string name="no_wifi_error">No Internet Connection Found. Use your data or wifi and try again!!</string>
-    <string name="no_wifi_button">Retry</string>
+    <string name="no_internet_error">An error has occurred. Please try again</string>
+    <string name="no_wifi_button"> REFRESH </string>
 
     <!-- Preferences -->
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="menu_refresh">Refresh</string>
 
     <!-- Labels in Movie Details -->
-    <string name="label_rating">Rating: </string>
-    <string name="label_date">Release Date: </string>
+    <string name="label_rating">Rating</string>
+    <string name="label_date">Release Date</string>
     <string name="label_overview">Overview</string>
 
     <!-- Hints in Movie Details -->

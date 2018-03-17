@@ -8,15 +8,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundDetails"
             android:orientation="vertical"
-            android:background="@color/colorBackgroundDetails">
-
-            <TextView
-                android:id="@+id/movie_title_text_view"
-                style="@style/DetailsScreenInfo"
-                android:hint="@string/movie_title_hint"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="25sp" />
+            android:padding="@dimen/space_10">
 
             <LinearLayout
                 android:id="@+id/linear_details"
@@ -26,26 +20,24 @@
 
                 <ImageView
                     android:id="@+id/image_details"
-                    android:layout_width="180dp"
-                    android:layout_height="190dp"
+                    android:layout_width="200dp"
+                    android:layout_height="250dp"
                     android:contentDescription="@string/images" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_10"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/label_rating_text_view"
-                        style="@style/DetailsScreenLabels"
-                        android:text="@string/label_rating" />
-
-                    <TextView
-                        android:id="@+id/rating_text_view"
+                        android:id="@+id/movie_title_text_view"
                         style="@style/DetailsScreenInfo"
-                        android:drawableStart="@drawable/rating_star_small"
-                        android:drawablePadding="8dp"
-                        android:hint="@string/movie_rating_hint" />
+                        android:hint="@string/movie_title_hint"
+                        android:maxLines="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/label_date_text_view"
@@ -55,7 +47,22 @@
                     <TextView
                         android:id="@+id/date_text_view"
                         style="@style/DetailsScreenInfo"
-                        android:hint="@string/movie_date_hint" />
+                        android:hint="@string/movie_date_hint"
+                        android:textColor="@color/colorLightGrey" />
+
+                    <TextView
+                        android:id="@+id/label_rating_text_view"
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_rating" />
+
+                    <TextView
+                        android:id="@+id/rating_text_view"
+                        style="@style/DetailsScreenInfo"
+                        android:drawablePadding="@dimen/space_10"
+                        android:drawableStart="@drawable/rating_star_small"
+                        android:hint="@string/movie_rating_hint"
+                        android:textColor="@color/colorLightGrey"
+                        android:textSize="24sp" />
 
                 </LinearLayout>
 
@@ -64,15 +71,17 @@
             <View
                 android:id="@+id/view_line"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginTop="@dimen/space_10"
                 android:background="@color/colorPrimaryDark"
-                android:padding="@dimen/small_padding_5"
-                android:layout_marginBottom="@dimen/space_10"/>
+                android:padding="@dimen/small_padding_5" />
 
             <TextView
                 android:id="@+id/label_synopsis_text_view"
                 style="@style/DetailsScreenLabels"
-                android:text="@string/label_overview" />
+                android:text="@string/label_overview"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/synopsis_text_view"

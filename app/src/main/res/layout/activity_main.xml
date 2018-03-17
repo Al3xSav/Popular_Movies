@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.alexsav.popularmovies.MainActivity">
+    tools:context="com.alexsav.popularmovies.activities.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDetails">
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:visibility="gone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewMovies"
@@ -24,7 +27,7 @@
             style="@style/mainScreen"
             android:layout_gravity="center"
             android:contentDescription="@string/images"
-            android:src="@drawable/ic_signal_wifi_off_black_24dp" />
+            android:src="@drawable/ic_signal_wifi_off_black_48dp" />
 
         <TextView
             android:id="@+id/text_view_no_internet"
@@ -37,6 +40,7 @@
             android:id="@+id/retry_btn"
             style="@style/mainScreen"
             android:layout_below="@id/text_view_no_internet"
+            android:background="@drawable/red_button"
             android:text="@string/no_wifi_button" />
 
     </RelativeLayout>
