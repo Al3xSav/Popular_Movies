@@ -1,5 +1,7 @@
 package com.alexsav.popularmovies.model;
 
+import android.os.Parcelable;
+
 /**
  * Constructor Class
  */

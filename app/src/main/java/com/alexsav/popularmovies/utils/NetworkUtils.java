@@ -3,6 +3,8 @@ package com.alexsav.popularmovies.utils;
 import android.net.Uri;
 import android.util.Log;
 
+import com.alexsav.popularmovies.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,7 +26,7 @@ public class NetworkUtils {
     public static final String TOP_RATED = "top_rated";
     public static final String MOST_POPULAR = "popular";
     // PUT API HERE
-    private static final String API_CONS = "";
+    private static final String API_CONS = BuildConfig.API_KEY;
     // TAG to help catch errors in Log
     private static final String TAG = NetworkUtils.class.getSimpleName();
     /* CONSTANTS For The URL*/
