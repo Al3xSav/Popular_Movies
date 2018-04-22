@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,64 +13,84 @@
             android:orientation="vertical"
             android:padding="@dimen/space_10">
 
-            <LinearLayout
-                android:id="@+id/linear_details"
+            <ImageView
+                android:id="@+id/image_backdrop_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="150dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/images"
+                android:scaleType="centerCrop" />
 
-                <ImageView
-                    android:id="@+id/image_details"
-                    android:layout_width="200dp"
-                    android:layout_height="250dp"
-                    android:contentDescription="@string/images" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/details_card"
+                style="@style/CardViewStyle">
 
                 <LinearLayout
+                    android:id="@+id/linear_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_10"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/movie_title_text_view"
-                        style="@style/DetailsScreenInfo"
-                        android:hint="@string/movie_title_hint"
-                        android:maxLines="2"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/image_details"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        android:contentDescription="@string/images" />
 
-                    <TextView
-                        android:id="@+id/label_date_text_view"
-                        style="@style/DetailsScreenLabels"
-                        android:text="@string/label_date" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_10"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/date_text_view"
-                        style="@style/DetailsScreenInfo"
-                        android:hint="@string/movie_date_hint"
-                        android:textColor="@color/colorLightGrey" />
+                        <TextView
+                            android:id="@+id/movie_title_text_view"
+                            style="@style/DetailsScreenInfo"
+                            android:hint="@string/movie_title_hint"
+                            android:maxLines="2"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/label_rating_text_view"
-                        style="@style/DetailsScreenLabels"
-                        android:text="@string/label_rating" />
+                        <TextView
+                            android:id="@+id/label_date_text_view"
+                            style="@style/DetailsScreenLabels"
+                            android:text="@string/label_date" />
 
-                    <TextView
-                        android:id="@+id/rating_text_view"
-                        style="@style/DetailsScreenInfo"
-                        android:drawablePadding="@dimen/space_10"
-                        android:drawableStart="@drawable/rating_star_small"
-                        android:hint="@string/movie_rating_hint"
-                        android:textColor="@color/colorLightGrey"
-                        android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/date_text_view"
+                            style="@style/DetailsScreenInfo"
+                            android:hint="@string/movie_date_hint"
+                            android:textColor="@color/colorLightGrey" />
 
+                        <TextView
+                            android:id="@+id/label_rating_text_view"
+                            style="@style/DetailsScreenLabels"
+                            android:text="@string/label_rating" />
+
+                        <TextView
+                            android:id="@+id/rating_text_view"
+                            style="@style/DetailsScreenInfo"
+                            android:drawablePadding="@dimen/space_10"
+                            android:drawableStart="@drawable/rating_star_small"
+                            android:hint="@string/movie_rating_hint"
+                            android:textColor="@color/colorLightGrey"
+                            android:textSize="24sp" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/fab"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            fab:srcCompat="@drawable/ic_favorite_border" />
+
+                    </LinearLayout>
                 </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            </LinearLayout>
-
+            <!-- Overview -->
             <View
-                android:id="@+id/view_line"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginBottom="@dimen/space_10"
@@ -77,16 +98,86 @@
                 android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/small_padding_5" />
 
-            <TextView
-                android:id="@+id/label_synopsis_text_view"
-                style="@style/DetailsScreenLabels"
-                android:text="@string/label_overview"
-                android:textStyle="bold" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/overview_card"
+                style="@style/CardViewStyle">
 
-            <TextView
-                android:id="@+id/synopsis_text_view"
-                style="@style/DetailsScreenInfo"
-                android:hint="@string/movie_overview_hint" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/label_synopsis_text_view"
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_overview"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/synopsis_text_view"
+                        style="@style/DetailsScreenInfo"
+                        android:hint="@string/movie_overview_hint" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- Trailers -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/small_padding_5" />
+
+            <android.support.v7.widget.CardView style="@style/CardViewStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_trailer"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewTrailers"
+                        style="@style/RecyclerViewStyle">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- Reviews -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/small_padding_5" />
+
+            <android.support.v7.widget.CardView style="@style/CardViewStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_reviews"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewReviews"
+                        style="@style/RecyclerViewStyle"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

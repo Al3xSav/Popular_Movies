@@ -1,14 +1,17 @@
-<resources>
+<resources
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="mainScreen" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="mainScreen">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerInParent">true</item>
@@ -17,18 +20,36 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="DetailsScreenLabels" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="DetailsScreenLabels">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/label_text_size</item>
         <item name="android:padding">@dimen/small_padding_5</item>
     </style>
 
-    <style name="DetailsScreenInfo" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="DetailsScreenInfo">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/details_text_size</item>
         <item name="android:padding">@dimen/small_padding_5</item>
+    </style>
+
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/space_10</item>
+        <item name="cardBackgroundColor">@color/colorWhite</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">30dp</item>
+    </style>
+
+    <style name="RecyclerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
 </resources>

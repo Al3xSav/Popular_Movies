@@ -10,58 +10,76 @@ import android.widget.ImageView;
 
 import com.alexsav.popularmovies.R;
 import com.alexsav.popularmovies.model.Movies;
+import com.alexsav.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
+    private static int holderCount;
     public final Context context;
-    private final List<Movies> moviesList;
-    private final ListItemOnClickListener mClickListener;
+    private List<Movies> moviesList;
+    public final ListItemOnClickListener clickListener;
+
 
     public MoviesAdapter(List<Movies> moviesList, Context context,
-                         ListItemOnClickListener mClickListener) {
+                         ListItemOnClickListener clickListener) {
         this.moviesList = moviesList;
         this.context = context;
-        this.mClickListener = mClickListener;
+        this.clickListener = clickListener;
+        holderCount = 0;
+    }
+
+    public void setMoviesList(List<Movies> list) {
+        if (list != null) {
+            this.moviesList = list;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     @NonNull
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        // Create View and inflate the movies_grid_item into ti
+    public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        // Create View and inflate the movies_grid_item into it
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.movies_grid_item, viewGroup, false);
         // Return this new View we created
-        return new ViewHolder(view);
+        holderCount++;
+        return new MoviesViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull MoviesViewHolder viewHolder, int position) {
 
         Movies movies = moviesList.get(position);
-        // .with(context) wont work.
 
-        Picasso.get().load(movies.getPosterUrl()).into(viewHolder.imageView);
+        Picasso.get()
+                .load(NetworkUtils.POSTER_URL + movies.getPosterUrl())
+                .into(viewHolder.imageView);
 
+        viewHolder.itemView.setTag(movies);
     }
 
     @Override
     public int getItemCount() {
         // return the number of the items in the list
-        return moviesList.size();
+        if (moviesList != null) {
+            return moviesList.size();
+        } else {
+            return 0;
+        }
     }
 
     public interface ListItemOnClickListener {
         void onListItemClick(int clickedItemIndex);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView imageView;
 
-        private ViewHolder(View view) {
+        private MoviesViewHolder(View view) {
             super(view);
             imageView = view.findViewById(R.id.main_grid_img);
             view.setOnClickListener(this);
@@ -70,7 +88,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         @Override
         public void onClick(View view) {
             int clickedPosition = getAdapterPosition();
-            mClickListener.onListItemClick(clickedPosition);
+            clickListener.onListItemClick(clickedPosition);
         }
     }
 }

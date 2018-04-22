@@ -8,6 +8,11 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackgroundDetails">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewMovies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
@@ -15,33 +20,35 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="140dp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewMovies"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/colorBackgroundDetails">
 
-        <ImageView
-            android:id="@+id/no_connection_img"
-            style="@style/mainScreen"
-            android:layout_gravity="center"
-            android:contentDescription="@string/images"
-            android:src="@drawable/ic_signal_wifi_off_black_48dp" />
+            <ImageView
+                android:id="@+id/no_connection_img"
+                style="@style/mainScreen"
+                android:layout_gravity="center"
+                android:contentDescription="@string/images"
+                android:src="@drawable/ic_signal_wifi_off_black_48dp" />
 
-        <TextView
-            android:id="@+id/text_view_no_internet"
-            style="@style/mainScreen"
-            android:layout_below="@id/no_connection_img"
-            android:text="@string/no_internet_error"
-            android:textAlignment="center" />
+            <TextView
+                android:id="@+id/text_view_no_internet"
+                style="@style/mainScreen"
+                android:layout_below="@id/no_connection_img"
+                android:text="@string/no_internet_error"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/retry_btn"
-            style="@style/mainScreen"
-            android:layout_below="@id/text_view_no_internet"
-            android:background="@drawable/red_button"
-            android:text="@string/no_wifi_button" />
+            <Button
+                android:id="@+id/retry_btn"
+                style="@style/mainScreen"
+                android:layout_below="@id/text_view_no_internet"
+                android:background="@drawable/red_button"
+                android:text="@string/no_wifi_button" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

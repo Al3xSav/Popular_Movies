@@ -9,16 +9,33 @@
     <!-- Preferences -->
     <string name="most_popular">Most Popular</string>
     <string name="top_rated">Top Rated</string>
-    <string name="menu_refresh">Refresh</string>
+    <string name="my_favorites">Favorites</string>
 
     <!-- Labels in Movie Details -->
     <string name="label_rating">Rating</string>
     <string name="label_date">Release Date</string>
     <string name="label_overview">Overview</string>
+    <string name="label_trailer">Trailers</string>
+    <string name="label_reviews">Reviews</string>
 
     <!-- Hints in Movie Details -->
     <string name="movie_title_hint">Movie Title</string>
     <string name="movie_rating_hint">X.XX</string>
     <string name="movie_date_hint">DD/MM/YYYY</string>
     <string name="movie_overview_hint">Movie Synopsis</string>
+
+    <!-- Reviews -->
+    <string name="review_author">Review Author</string>
+    <string name="review_text">Review Text</string>
+
+    <!-- Trailer -->
+    <string name="trailer_title">Trailer Title</string>
+
+    <!-- Backdrop card -->
+    <string name="card_title">Title On Card</string>
+
+    <!-- Append -->
+    <string name="append_videos">videos</string>
+    <string name="append_reviews">reviews</string>
+    <string name="append_images">images</string>
 </resources>

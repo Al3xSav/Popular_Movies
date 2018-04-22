@@ -1,17 +1,23 @@
 package com.alexsav.popularmovies.utils;
 
-import android.net.Uri;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.alexsav.popularmovies.BuildConfig;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 /*
 * A way to communicate with theMovieDB
 */
@@ -25,14 +31,57 @@ public class NetworkUtils {
      */
     public static final String TOP_RATED = "top_rated";
     public static final String MOST_POPULAR = "popular";
+    public static final String FAVORITE = "favorite";
     // PUT API HERE
     private static final String API_CONS = BuildConfig.API_KEY;
-    // TAG to help catch errors in Log
-    private static final String TAG = NetworkUtils.class.getSimpleName();
-    /* CONSTANTS For The URL*/
     // Base URL
-    private static final String MOVIES_URL = "https://api.themoviedb.org/3/movie";
-    // The Query Params
+    public static final String MOVIES_URL = BuildConfig.BASE_URL;
+    public static final String POSTER_URL = BuildConfig.BASE_URL_IMAGE_POSTER;
+    public static final String BACKDROP_URL = BuildConfig.BASE_URL_IMAGE_BACKDROP;
+    public static final String VIDEO_URL = BuildConfig.BASE_URL_VIDEO;
+
+    public static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    public static Retrofit retrofit;
+
+    public static <S> S createService(Class<S> serviceClass) {
+        HttpLoggingInterceptor httpLoggingInterceptor =
+                new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        httpClient.addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(new AuthenticationInterceptor());
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(MOVIES_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    private static class AuthenticationInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(@NonNull Chain chain) throws IOException {
+            HttpUrl httpUrl = chain
+                    .request()
+                    .url()
+                    .newBuilder()
+                    .addQueryParameter("api_key", API_CONS)
+                    .build();
+
+            Request request = chain
+                    .request()
+                    .newBuilder()
+                    .url(httpUrl)
+                    .build();
+
+            return chain.proceed(request);
+        }
+    }
+
+
+    /*// The Query Params
     private static final String API_KEY = "api_key";
     private static final String LANGUAGE = "language";
     private static final String PAGINATION = "page";
@@ -59,7 +108,7 @@ public class NetworkUtils {
         Log.v(TAG, "Built URI" + url);
 
         return url;
-    }
+    }*/
 
     // Helper method by Udacity
     public static String getResponseFromHttpUrl(URL url) throws IOException {
