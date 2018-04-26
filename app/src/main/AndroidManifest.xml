@@ -30,7 +30,7 @@
 
         <provider
             android:name=".data.MoviesDetailsContentProvider"
-            android:authorities="com.example.android.popularmoviesapp"
+            android:authorities="com.alexsav.popularmovies"
             android:exported="false" />
     </application>
 

@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Toast;
 import com.alexsav.popularmovies.R;
 import com.alexsav.popularmovies.adapters.MoviesAdapter;
-import com.alexsav.popularmovies.data.MoviesContract;
 import com.alexsav.popularmovies.databinding.ActivityMainBinding;
 import com.alexsav.popularmovies.model.*;
 import com.alexsav.popularmovies.utils.*;
@@ -30,22 +29,19 @@ import retrofit2.Response;
 
 import static com.alexsav.popularmovies.activities.DetailsActivity.EXTRA_MOVIE_PARCELABLE;
 import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
-import static com.alexsav.popularmovies.utils.NetworkUtils.MOST_POPULAR;
-import static com.alexsav.popularmovies.utils.NetworkUtils.TOP_RATED;
+import static com.alexsav.popularmovies.utils.ConnectionUtils.isNetworkAvailable;
+import static com.alexsav.popularmovies.utils.NetworkUtils.*;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, MoviesAdapter.ListItemOnClickListener {
 
-    private List<Movies> mMoviesList = new ArrayList<>();
-    private ActivityMainBinding mActivityMainBinding;
-    //public RecyclerView mAdapter;
-    public MoviesAdapter mMoviesAdapter;
-    public NetworkUtilsInterface mNetworkUtilsInterface;
-    //public RecyclerView recyclerView;
-    public static boolean favoriteSorting;
-    private int menuItemSelected = -1;
-    public static final String SHARED_PREF_FILE = "favorites";
     public static final String MENU_SELECTED = "menu_selected";
     private static final int LOADER_ID = 1050;
+    public static boolean favoriteSorting;
+    private List<Movies> mMoviesList;
+    private ActivityMainBinding mActivityMainBinding;
+    public MoviesAdapter mMoviesAdapter;
+    public NetworkUtilsInterface mNetworkUtilsInterface;
+    private int menuItemSelected = -1;
     public static int filter = 0;
 
     @Override
@@ -53,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         mActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        mActivityMainBinding.recyclerViewMovies.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mActivityMainBinding.recyclerViewMovies.setLayoutManager(gridLayoutManager);
+        mActivityMainBinding.recyclerViewMovies.setHasFixedSize(true);
+
         mNetworkUtilsInterface = NetworkUtils.createService(NetworkUtilsInterface.class);
 
         /*
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             menuItemSelected = savedInstanceState.getInt(MENU_SELECTED);
             mMoviesList = Parcels.unwrap(savedInstanceState.getParcelable("MOVIE_LIST"));
 
-        } else if(!ConnectionUtils.isNetworkAvailable(this)) {
+        } else if(!isNetworkAvailable(this)) {
 
             mActivityMainBinding.noConnectionImg.setVisibility(View.VISIBLE);
             mActivityMainBinding.textViewNoInternet.setVisibility(View.VISIBLE);
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mActivityMainBinding.retryBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!ConnectionUtils.isNetworkAvailable(MainActivity.this)) {
+                    if (!isNetworkAvailable(MainActivity.this)) {
                         mActivityMainBinding.progressBar.setVisibility(View.VISIBLE);
                         Toast.makeText(MainActivity.this, "Please Try Again", Toast.LENGTH_SHORT).show();
                         mActivityMainBinding.retryBtn.setVisibility(View.VISIBLE);
@@ -88,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         mActivityMainBinding.retryBtn.setVisibility(View.GONE);
 
                         String sortBy = DBMoviesUtils.loadSelectedItem(MainActivity.this);
-
-                        if (sortBy.equals(NetworkUtils.MOST_POPULAR) || sortBy.equals(NetworkUtils.TOP_RATED )) {
+                        if (sortBy.equals(NetworkUtils.MOST_POPULAR) || sortBy.equals(NetworkUtils.TOP_RATED)) {
                             getMoviesData(sortBy);
                         } else if (sortBy.equals(NetworkUtils.FAVORITE)) {
                             getFavoriteMovies();
@@ -98,23 +94,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             });
 
+        } else if (isNetworkAvailable(this)){
+            mActivityMainBinding.noConnectionImg.setVisibility(View.GONE);
+            mActivityMainBinding.textViewNoInternet.setVisibility(View.GONE);
+            mActivityMainBinding.retryBtn.setVisibility(View.GONE);
+
+            String sortBy = DBMoviesUtils.loadSelectedItem(MainActivity.this);
+            if (sortBy.equals(NetworkUtils.MOST_POPULAR) || sortBy.equals(NetworkUtils.TOP_RATED)) {
+                getMoviesData(sortBy);
+            } else if (sortBy.equals(NetworkUtils.FAVORITE)) {
+                getFavoriteMovies();
+            }
         } else {
             getFavoriteMovies();
             favoriteSorting = true;
         }
 
-        setMoviesAdapter(mActivityMainBinding.recyclerViewMovies);
+        setAdapter(mActivityMainBinding.recyclerViewMovies);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if (favoriteSorting) {
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
+            getLoaderManager().restartLoader(LOADER_ID,null, this);
         }
     }
 
-    public void setMoviesAdapter(RecyclerView recyclerView) {
+    public void setAdapter(RecyclerView recyclerView) {
             mMoviesAdapter = new MoviesAdapter(mMoviesList,this ,this);
             recyclerView.setAdapter(mMoviesAdapter);
     }
@@ -129,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
 
         mActivityMainBinding.progressBar.setVisibility(View.VISIBLE);
-        if (ConnectionUtils.isNetworkAvailable(this)) {
+        if (isNetworkAvailable(this)) {
             switch (item.getItemId()) {
                 // Response to a click on the "View By Popularity" menu option
                 case R.id.by_most_popular:
@@ -181,23 +188,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex) {
+    public void onListClick(int clickedItemIndex) {
         Movies movieClicked = mMoviesList.get(clickedItemIndex);
-        Intent intent = new Intent(this, DetailsActivity.class);
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         intent.putExtra(EXTRA_MOVIE_PARCELABLE, Parcels.wrap(movieClicked));
         startActivity(intent);
     }
 
     private void getFavoriteMovies(){
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        getLoaderManager().restartLoader(LOADER_ID, null, MainActivity.this);
         mActivityMainBinding.progressBar.setVisibility(View.INVISIBLE);
     }
 
     public void getMoviesData(String sortBy) {
-        Call<MoviesResults> moviesResultsCall = mNetworkUtilsInterface.getPopular(sortBy);
-        moviesResultsCall.enqueue(new Callback<MoviesResults>() {
+        Call<MoviesResponse> moviesResponseCall = mNetworkUtilsInterface.getPopular(sortBy);
+        moviesResponseCall.enqueue(new Callback<MoviesResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MoviesResults> call,@NonNull Response<MoviesResults> response) {
+            public void onResponse(@NonNull Call<MoviesResponse> call,@NonNull Response<MoviesResponse> response) {
                 if (response.isSuccessful()) {
                     mActivityMainBinding.progressBar.setVisibility(View.INVISIBLE);
                     mMoviesList = response.body().getMoviesResults();
@@ -211,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 
             @Override
-            public void onFailure(@NonNull Call<MoviesResults> call,@NonNull  Throwable t) {
+            public void onFailure(@NonNull Call<MoviesResponse> call,@NonNull Throwable t) {
                 Toast.makeText(MainActivity.this,
                         "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -221,40 +228,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-
-        return new AsyncTaskLoader<Cursor>(MainActivity.this) {
-            Cursor moviesCursor = null;
-
-            @Override
-            protected void onStartLoading() {
-                if (moviesCursor != null) {
-                    deliverResult(moviesCursor);
-                } else {
-                    forceLoad();
-                }
-            }
-
-            @Override
-            public Cursor loadInBackground() {
-                try {
-                    return getContentResolver().query(MoviesContract.FavoriteMoviesEntry.CONTENT_URI,
-                            null,
-                            null,
-                            null,
-                            MoviesContract.FavoriteMoviesEntry._ID);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-
-            @Override
-            public void deliverResult(Cursor data) {
-                //moviesCursor = data;
-                super.deliverResult(data);
-            }
-
-        };
+        return new MoviesAsyncLoader(MainActivity.this);
     }
 
     @Override
@@ -270,29 +244,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public List<Movies> loadDataFromCursor(Cursor cursor) {
         List<Movies> moviesList = new ArrayList<>();
-        if(cursor.moveToNext()) {
-            while (cursor.moveToNext()) {
-                Movies movies = new Movies();
+        while (cursor.moveToNext()) {
+            Movies movies = new Movies();
 
-                movies.setIsFavorite(true);
-                movies.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
-                movies.setPosterUrl(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER)));
-                movies.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
-                movies.setRating(cursor.getString(cursor.getColumnIndex(COLUMN_RATING)));
-                movies.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
-                movies.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
-                movies.setBackdrop(cursor.getString(cursor.getColumnIndex(COLUMN_BACKDROP)));
-                moviesList.add(movies);
-            }
+            movies.setIsFavorite(true);
+            movies.setId(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)));
+            movies.setPosterUrl(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER)));
+            movies.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
+            movies.setOverview(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)));
+            movies.setReleaseDate(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)));
+            movies.setRating(cursor.getString(cursor.getColumnIndex(COLUMN_RATING)));
+            moviesList.add(movies);
         }
         return moviesList;
     }
-    /*
-    public class FetchMoviesTaskCompleteListener implements AsyncTaskCompleteListener<String> {
-        @Override
-        public void onTaskComplete(String searchResults) {
-        // Do something
-        }
-    }*/
 }
 

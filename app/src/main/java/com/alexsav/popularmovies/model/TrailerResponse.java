@@ -5,8 +5,8 @@ import org.parceler.Parcel;
 import java.util.List;
 
 @Parcel
-public class TrailerResults {
+public class TrailerResponse {
     @SerializedName("results")
     public List<Trailer> trailers;
-    public List<Trailer> getTrailerResults() { return trailers; }
+    public List<Trailer> getTrailerResponse() { return trailers; }
 }

@@ -12,28 +12,28 @@ import java.util.List;
 public class Movies {
 
     @SerializedName("runtime")
-    private String runtime;
+    String runtime;
     @SerializedName("images")
-    private Images images;
+    Images images;
     @SerializedName("reviews")
-    private ReviewResults reviewResults;
+    ReviewResponse reviewResponse;
     @SerializedName("videos")
-    TrailerResults trailerResults;
-    private boolean favorite;
+    TrailerResponse trailerResponse;
+    public boolean favorite;
     @SerializedName("id")
-    private long id;
-    @SerializedName("title")
-    private String title;
+    public long id;
+    @SerializedName("original_title")
+    public String title;
     @SerializedName("releaseDate")
-    private String releaseDate;
+    public String releaseDate;
     @SerializedName("posterUrl")
-    private String posterUrl;
+    public String posterUrl;
     @SerializedName("rating")
-    private String rating;
+    public String rating;
     @SerializedName("overview")
-    private String overview;
+    public String overview;
     @SerializedName("backdrop_path")
-    private String backdrop;
+    public String backdrop;
 
     public Movies(){}
 
@@ -45,8 +45,8 @@ public class Movies {
     /* Set */
     public void setRuntime(String runtime) {this.runtime = runtime; }
     public void setImages(Images images) { this.images = images; }
-    public void setReviewResults(ReviewResults reviewResults) { this.reviewResults = reviewResults; }
-    public void setTrailerResults(TrailerResults trailerResults) { this.trailerResults = trailerResults; }
+    public void setReviewResponse(ReviewResponse reviewResponse) { this.reviewResponse = reviewResponse; }
+    public void setTrailerResponse(TrailerResponse trailerResponse) { this.trailerResponse = trailerResponse; }
     public void setIsFavorite(boolean favorite) { this.favorite = favorite; }
     public void setId(long id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
@@ -59,8 +59,8 @@ public class Movies {
     /* Get */
     public String getRuntime() { return runtime; }
     public Images getImages() { return images; }
-    public ReviewResults getReviewResults() { return reviewResults; }
-    public TrailerResults getTrailerResults() { return trailerResults; }
+    public ReviewResponse getReviewResponse() { return reviewResponse; }
+    public TrailerResponse getTrailerResponse() { return trailerResponse; }
     public boolean getIsFavorite() { return favorite; }
     public long getId() { return id; }
     public String getTitle() { return title; }
@@ -72,7 +72,7 @@ public class Movies {
 
     @Override
     public String toString() {
-        return "Movies{" +
+        return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", poster='" + posterUrl + '\'' +
@@ -81,8 +81,8 @@ public class Movies {
                 ", rating='" + rating + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", runtime='" + runtime + '\'' +
-                ", trailersResults=" + trailerResults +
-                ", reviewsResults=" + reviewResults +
+                ", trailersResults=" + trailerResponse +
+                ", reviewsResults=" + reviewResponse +
                 ", images=" + images +
                 ", isFavourite=" + favorite +
                 '}';

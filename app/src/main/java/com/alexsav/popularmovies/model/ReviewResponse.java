@@ -5,16 +5,14 @@ import org.parceler.Parcel;
 import java.util.List;
 
 @Parcel
-public class ReviewResults {
+public class ReviewResponse {
 
     @SerializedName("results")
     public List<Reviews> reviews;
     @SerializedName("total_results")
     public int totalReviews;
 
-    public List<Reviews> getReviews() {
-        return reviews;
-    }
+    public List<Reviews> getReviews() { return reviews; }
     public int getTotalReviews() {
         return totalReviews;
     }

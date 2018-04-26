@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import android.view.View.OnClickListener;
 import com.alexsav.popularmovies.R;
 import com.alexsav.popularmovies.model.Movies;
 import com.alexsav.popularmovies.utils.NetworkUtils;
@@ -17,10 +17,9 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-    private static int holderCount;
-    public final Context context;
-    private List<Movies> moviesList;
-    public final ListItemOnClickListener clickListener;
+    Context context;
+    List<Movies> moviesList;
+    ListItemOnClickListener clickListener;
 
 
     public MoviesAdapter(List<Movies> moviesList, Context context,
@@ -28,7 +27,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         this.moviesList = moviesList;
         this.context = context;
         this.clickListener = clickListener;
-        holderCount = 0;
     }
 
     public void setMoviesList(List<Movies> list) {
@@ -38,14 +36,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         }
     }
 
-    @Override
+
     @NonNull
+    @Override
     public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         // Create View and inflate the movies_grid_item into it
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.movies_grid_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movies_grid_item, viewGroup, false);
         // Return this new View we created
-        holderCount++;
         return new MoviesViewHolder(view);
     }
 
@@ -56,6 +53,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         Picasso.get()
                 .load(NetworkUtils.POSTER_URL + movies.getPosterUrl())
+                .error(R.drawable.error_img)
                 .into(viewHolder.imageView);
 
         viewHolder.itemView.setTag(movies);
@@ -72,10 +70,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     }
 
     public interface ListItemOnClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onListClick(int clickedItemIndex);
     }
 
-    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         private final ImageView imageView;
 
@@ -87,8 +85,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         @Override
         public void onClick(View view) {
-            int clickedPosition = getAdapterPosition();
-            clickListener.onListItemClick(clickedPosition);
+            clickListener.onListClick(getAdapterPosition());
         }
     }
 }

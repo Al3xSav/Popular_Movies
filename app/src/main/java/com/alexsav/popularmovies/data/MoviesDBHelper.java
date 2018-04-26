@@ -6,13 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
 
 public class MoviesDBHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "favmovies.db";
+    private static final String DATABASE_NAME = "movies.db";
     private static final int DATABASE_VERSION = 1;
 
     public MoviesDBHelper(Context context) { super(context, DATABASE_NAME, null, DATABASE_VERSION);}
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_MOVIES_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -26,7 +26,7 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
                 COLUMN_RUNTIME + " TEXT NOT NULL" +
                 ");";
 
-        db.execSQL(SQL_CREATE_MOVIES_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_MOVIES_TABLE);
     }
 
     @Override

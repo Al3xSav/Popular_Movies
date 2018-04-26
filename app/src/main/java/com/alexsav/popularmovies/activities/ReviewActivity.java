@@ -14,12 +14,9 @@ public class ReviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mActivityReviewBinding = DataBindingUtil.setContentView(this, R.layout.activity_review);
         mActivityReviewBinding.textViewAuthor.setText(getIntent().getStringExtra("EXTRA_REVIEW_AUTHOR"));
         mActivityReviewBinding.textViewContent.setText(getIntent().getStringExtra("EXTRA_REVIEW_CONTENT"));
-    }
-
-    public void finishReviewActivity(View v){
-        finish();
     }
 }

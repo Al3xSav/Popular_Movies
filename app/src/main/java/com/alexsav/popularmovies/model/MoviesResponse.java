@@ -3,7 +3,7 @@ package com.alexsav.popularmovies.model;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class MoviesResults {
+public class MoviesResponse {
 
     @SerializedName("results")
     public List<Movies> moviesResults;

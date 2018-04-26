@@ -3,29 +3,21 @@ package com.alexsav.popularmovies.utils;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
 
-import com.alexsav.popularmovies.data.MoviesContract;
+public class MoviesAsyncLoader extends AsyncTaskLoader<Cursor>  {
 
-import java.io.IOException;
-import java.net.URL;
-
-public class FetchMoviesDataTask extends AsyncTaskLoader<Cursor>  {
-
-    //private static final String TAG = "FetchMoviesDataTask";
-    private Cursor moviesCursor = null;
+    private Cursor moviesCursor;
     public Context context;
 
-    public FetchMoviesDataTask(Context context) {
+    public MoviesAsyncLoader(Context context) {
         super(context);
         this.context = context;
+        moviesCursor = null;
     }
 
     @Override
     protected void onStartLoading() {
-        super.onStartLoading();
         if (moviesCursor != null){
             deliverResult(moviesCursor);
         } else {
@@ -36,11 +28,11 @@ public class FetchMoviesDataTask extends AsyncTaskLoader<Cursor>  {
     @Override
     public Cursor loadInBackground() {
         try {
-            return context.getContentResolver().query(MoviesContract.FavoriteMoviesEntry.CONTENT_URI,
+            return context.getContentResolver().query(CONTENT_URI,
                     null,
                     null,
                     null,
-                    MoviesContract.FavoriteMoviesEntry._ID);
+                    _ID);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
