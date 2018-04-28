@@ -3,12 +3,14 @@ package com.alexsav.popularmovies.utils;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
-import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
 
-public class MoviesAsyncLoader extends AsyncTaskLoader<Cursor>  {
+import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.CONTENT_URI;
+import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry._ID;
 
-    private Cursor moviesCursor;
+public class MoviesAsyncLoader extends AsyncTaskLoader<Cursor> {
+
     public Context context;
+    private Cursor moviesCursor;
 
     public MoviesAsyncLoader(Context context) {
         super(context);
@@ -18,7 +20,7 @@ public class MoviesAsyncLoader extends AsyncTaskLoader<Cursor>  {
 
     @Override
     protected void onStartLoading() {
-        if (moviesCursor != null){
+        if (moviesCursor != null) {
             deliverResult(moviesCursor);
         } else {
             forceLoad();
@@ -41,7 +43,6 @@ public class MoviesAsyncLoader extends AsyncTaskLoader<Cursor>  {
 
     @Override
     public void deliverResult(Cursor data) {
-        moviesCursor = data;
         super.deliverResult(data);
     }
 }

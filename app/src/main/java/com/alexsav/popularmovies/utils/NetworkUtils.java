@@ -1,14 +1,8 @@
 package com.alexsav.popularmovies.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.alexsav.popularmovies.BuildConfig;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -18,9 +12,10 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 /*
-* A way to communicate with theMovieDB
-*/
+ * A way to communicate with theMovieDB
+ */
 public class NetworkUtils {
 
     /*  The Top Rated Feed
@@ -32,14 +27,13 @@ public class NetworkUtils {
     public static final String TOP_RATED = "top_rated";
     public static final String MOST_POPULAR = "popular";
     public static final String FAVORITE = "favorite";
-    // PUT API HERE
-    private static final String API_CONS = BuildConfig.API_KEY;
     // Base URL
     public static final String MOVIES_URL = BuildConfig.BASE_URL;
     public static final String POSTER_URL = BuildConfig.BASE_URL_IMAGE_POSTER;
     public static final String BACKDROP_URL = BuildConfig.BASE_URL_IMAGE_BACKDROP;
     public static final String VIDEO_URL = BuildConfig.BASE_URL_VIDEO;
-
+    // PUT API HERE
+    private static final String API_CONS = BuildConfig.API_KEY;
     public static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     public static Retrofit retrofit;
 

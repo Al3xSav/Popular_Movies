@@ -5,7 +5,6 @@ import org.parceler.Parcel;
 
 @Parcel
 public class Trailer {
-
     @SerializedName("key")
     public String key;
     @SerializedName("name")
@@ -14,6 +13,7 @@ public class Trailer {
     public String getKey() {
         return key;
     }
+
     public String getName() {
         return name;
     }

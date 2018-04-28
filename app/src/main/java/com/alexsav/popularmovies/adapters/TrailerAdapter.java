@@ -1,17 +1,17 @@
 package com.alexsav.popularmovies.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.alexsav.popularmovies.BuildConfig;
 import com.alexsav.popularmovies.R;
-import com.alexsav.popularmovies.model.Movies;
-import com.alexsav.popularmovies.model.Trailer;
-import com.alexsav.popularmovies.model.TrailerResponse;
+import com.alexsav.popularmovies.model.*;
 import com.squareup.picasso.Picasso;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerViewHolder> {
@@ -20,28 +20,24 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     public Context context;
     private Movies movies;
 
-    public TrailerAdapter (TrailerListener trailerListener, Context context, Movies movies) {
+    public TrailerAdapter(TrailerListener trailerListener, Context context, Movies movies) {
         this.trailerListener = trailerListener;
         this.context = context;
         this.movies = movies;
     }
 
-    public interface TrailerListener {
-        void onTrailerClick(int index);
-    }
-
+    @NonNull
     @Override
-    public TrailerAdapter.TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TrailerAdapter.TrailerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layoutId = R.layout.trailer_item;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(layoutId, parent, false);
-        TrailerViewHolder viewHolder = new TrailerViewHolder(view);
-        return viewHolder;
-        //return new TrailerViewHolder(view);
+        return new TrailerViewHolder(view);
+
     }
 
     @Override
-    public void onBindViewHolder(TrailerAdapter.TrailerViewHolder trailerViewHolder, int position) {
+    public void onBindViewHolder(@NonNull TrailerAdapter.TrailerViewHolder trailerViewHolder, int position) {
 
         TrailerResponse trailerResponse = movies.getTrailerResponse();
         Trailer trailer = trailerResponse.getTrailerResponse().get(position);
@@ -59,8 +55,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     public int getItemCount() {
         if (movies.getTrailerResponse() == null) {
             return 0;
+        } else {
+            return movies.getTrailerResponse().getTrailerResponse().size();
         }
-        return movies.getTrailerResponse().getTrailerResponse().size();
+    }
+
+    public interface TrailerListener {
+        void onTrailerClick(int index);
     }
 
     class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,6 +78,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
 
         @Override
         public void onClick(View v) {
-            trailerListener.onTrailerClick(getAdapterPosition()); }
+            trailerListener.onTrailerClick(getAdapterPosition());
         }
+    }
 }

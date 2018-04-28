@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.alexsav.popularmovies.activities.DetailsActivity">
@@ -12,31 +13,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBackgroundDetails"
-            android:orientation="vertical"
-            android:padding="@dimen/space_10">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image_backdrop_image"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="220dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/images"
                 android:scaleType="centerCrop" />
 
+            <!-- Main Info of the Movie -->
             <android.support.v7.widget.CardView
                 android:id="@+id/details_card"
                 style="@style/CardViewStyle">
 
                 <LinearLayout
-                    android:id="@+id/linear_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/image_details"
-                        android:layout_width="200dp"
-                        android:layout_height="250dp"
+                        android:layout_width="@dimen/space_200"
+                        android:layout_height="@dimen/space_250"
                         android:contentDescription="@string/images" />
 
                     <LinearLayout
@@ -51,7 +51,7 @@
                             android:hint="@string/movie_title_hint"
                             android:maxLines="2"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                            android:textSize="25sp"
+                            android:textSize="@dimen/title_text_size"
                             android:textStyle="bold" />
 
                         <TextView
@@ -77,15 +77,19 @@
                             android:drawableStart="@drawable/rating_star_small"
                             android:hint="@string/movie_rating_hint"
                             android:textColor="@color/colorLightGrey"
-                            android:textSize="24sp" />
+                            android:textSize="@dimen/title_text_size" />
 
                         <android.support.design.widget.FloatingActionButton
                             android:id="@+id/fab"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="@dimen/space_15"
                             android:clickable="true"
-                            android:focusable="true"
-                            fab:srcCompat="@drawable/ic_favorite_border" />
+                            app:backgroundTint="@color/colorAccent"
+
+                            fab:srcCompat="@drawable/ic_add_favorite"
+                            tools:ignore="VectorDrawableCompat" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -94,7 +98,7 @@
             <!-- Overview -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/space_2"
                 android:layout_marginBottom="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
                 android:background="@color/colorPrimaryDark"
@@ -123,40 +127,10 @@
 
             </android.support.v7.widget.CardView>
 
-            <!-- Trailers -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="@dimen/space_10"
-                android:layout_marginTop="@dimen/space_10"
-                android:background="@color/colorPrimaryDark"
-                android:padding="@dimen/small_padding_5" />
-
-            <android.support.v7.widget.CardView style="@style/CardViewStyle">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/DetailsScreenLabels"
-                        android:text="@string/label_trailer"
-                        android:textStyle="bold" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recyclerViewTrailers"
-                        style="@style/RecyclerViewStyle">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
             <!-- Reviews -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="@dimen/space_2"
                 android:layout_marginBottom="@dimen/space_10"
                 android:layout_marginTop="@dimen/space_10"
                 android:background="@color/colorPrimaryDark"
@@ -176,7 +150,39 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerViewReviews"
-                        style="@style/RecyclerViewStyle"/>
+                        style="@style/RecyclerViewStyle"
+                        android:layout_margin="@dimen/space_1" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- Trailers -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_2"
+                android:layout_marginBottom="@dimen/space_10"
+                android:layout_marginTop="@dimen/space_10"
+                android:background="@color/colorPrimaryDark"
+                android:padding="@dimen/small_padding_5" />
+
+            <android.support.v7.widget.CardView style="@style/CardViewStyle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DetailsScreenLabels"
+                        android:text="@string/label_trailer"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerViewTrailers"
+                        style="@style/RecyclerViewStyle"
+                        android:layout_margin="@dimen/space_1">
+
+                    </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

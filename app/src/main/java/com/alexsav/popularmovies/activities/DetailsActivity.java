@@ -6,50 +6,48 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.alexsav.popularmovies.R;
-import com.alexsav.popularmovies.adapters.ReviewsAdapter;
-import com.alexsav.popularmovies.adapters.TrailerAdapter;
+import com.alexsav.popularmovies.adapters.*;
 import com.alexsav.popularmovies.databinding.ActivityDetailsBinding;
-import com.alexsav.popularmovies.model.Movies;
-import com.alexsav.popularmovies.model.ReviewResponse;
-import com.alexsav.popularmovies.model.Reviews;
-import com.alexsav.popularmovies.model.Trailer;
-import com.alexsav.popularmovies.model.TrailerResponse;
-import com.alexsav.popularmovies.utils.DBMoviesUtils;
-import com.alexsav.popularmovies.utils.NetworkUtils;
-import com.alexsav.popularmovies.utils.NetworkUtilsInterface;
+import com.alexsav.popularmovies.model.*;
+import com.alexsav.popularmovies.utils.*;
 import com.squareup.picasso.Picasso;
+
 import org.parceler.Parcels;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
 import static com.alexsav.popularmovies.utils.NetworkUtils.VIDEO_URL;
 
 public class DetailsActivity extends MainActivity
         implements TrailerAdapter.TrailerListener, ReviewsAdapter.ReviewListener {
 
-    private ActivityDetailsBinding mActivityDetailsBinding;
     public static final String SHARED_PREF_FILE = "favorites";
     public static final String EXTRA_MOVIE_PARCELABLE = "extra_movie_parcelable";
     public static final String MOVIE_DETAILS_STATE = "movie_details_state";
     private static boolean isFavoriteChecked;
-    StringBuilder stringBuilder;
-    private Movies moviesList;
-    private ReviewResponse reviewResponse;
     public ReviewsAdapter reviewsAdapter;
     public TrailerResponse trailerResponse;
-    private TrailerAdapter trailerAdapter;
+    public TrailerAdapter trailerAdapter;
     public NetworkUtilsInterface networkUtilsInterface;
-    public RecyclerView recyclerViewReviews, recyclerViewTrailer;
+    StringBuilder stringBuilder;
+    private ActivityDetailsBinding mActivityDetailsBinding;
+    private Movies moviesList;
+    private ReviewResponse reviewResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,8 @@ public class DetailsActivity extends MainActivity
             trailerResponse = Parcels.unwrap(savedInstanceState.getParcelable("TRAILERS"));
             reviewResponse = Parcels.unwrap(savedInstanceState.getParcelable("REVIEWS"));
             setLayoutManagers();
-            setReviewsAdapter(recyclerViewReviews);
-            setTrailerAdapter(recyclerViewTrailer);
+            setReviewsAdapter(mActivityDetailsBinding.recyclerViewReviews);
+            setTrailerAdapter(mActivityDetailsBinding.recyclerViewTrailers);
         } else {
             networkUtilsInterface = NetworkUtils.createService(NetworkUtilsInterface.class);
             moviesList = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_MOVIE_PARCELABLE));
@@ -109,23 +107,25 @@ public class DetailsActivity extends MainActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         mActivityDetailsBinding.movieTitleTextView.setText(moviesList.getTitle());
         mActivityDetailsBinding.ratingTextView.setText(moviesList.getRating());
         mActivityDetailsBinding.synopsisTextView.setText(moviesList.getOverview());
 
         Picasso.get()
                 .load(NetworkUtils.POSTER_URL + moviesList.getPosterUrl())
+                .error(R.drawable.error_img)
                 .into(mActivityDetailsBinding.imageDetails);
 
         Picasso.get()
                 .load(NetworkUtils.BACKDROP_URL + moviesList.getBackdrop())
+                .error(R.drawable.error_img)
                 .into(mActivityDetailsBinding.imageBackdropImage);
 
-        //TODO change resources
         if (isFavoriteChecked) {
-            mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_favorite_border);
+            mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_added_to_favorite);
         } else {
-            mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_favorite_border);
+            mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_add_favorite);
         }
 
         mActivityDetailsBinding.fab.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +133,7 @@ public class DetailsActivity extends MainActivity
             public void onClick(View v) {
                 if (isFavoriteChecked) {
                     Toast.makeText(getApplicationContext(), "Deleted from my Favorites", Toast.LENGTH_SHORT).show();
-                    mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_favorite_border);
+                    mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_add_favorite);
                     isFavoriteChecked = false;
                     String moviesID = String.valueOf(moviesList.getId());
                     Uri uri = CONTENT_URI.buildUpon().appendPath(moviesID).build();
@@ -144,15 +144,15 @@ public class DetailsActivity extends MainActivity
                     sharedEditor.apply();
                 } else {
                     Toast.makeText(getApplicationContext(), "Added to My Favorites", Toast.LENGTH_SHORT).show();
-                    mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_favorite_border);
+                    mActivityDetailsBinding.fab.setImageResource(R.drawable.ic_added_to_favorite);
                     isFavoriteChecked = true;
                     // Insert to the TABLE
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(COLUMN_ID, moviesList.getId());
                     contentValues.put(COLUMN_TITLE, moviesList.getTitle());
-                    contentValues.put(COLUMN_BACKDROP, moviesList.getBackdrop());
                     contentValues.put(COLUMN_OVERVIEW, moviesList.getOverview());
                     contentValues.put(COLUMN_POSTER, moviesList.getPosterUrl());
+                    contentValues.put(COLUMN_BACKDROP, moviesList.getBackdrop());
                     contentValues.put(COLUMN_RATING, moviesList.getRating());
                     contentValues.put(COLUMN_RELEASE_DATE, moviesList.getReleaseDate());
 
@@ -185,19 +185,20 @@ public class DetailsActivity extends MainActivity
         Call<Movies> moviesCall = networkUtilsInterface.getMoviesInfo(id, stringBuilder.toString());
         moviesCall.enqueue(new Callback<Movies>() {
             @Override
-            public void onResponse(Call<Movies> call,Response<Movies> response) {
+            public void onResponse(@NonNull Call<Movies> call, @NonNull Response<Movies> response) {
                 moviesList = response.body();
                 trailerResponse = moviesList.getTrailerResponse();
                 moviesList.setTrailerResponse(trailerResponse);
                 setLayoutManagers();
-                setTrailerAdapter(recyclerViewTrailer);
+                setTrailerAdapter(mActivityDetailsBinding.recyclerViewTrailers);
                 reviewResponse = moviesList.getReviewResponse();
                 moviesList.setReviewResponse(reviewResponse);
-                setReviewsAdapter(recyclerViewReviews);
+                setReviewsAdapter(mActivityDetailsBinding.recyclerViewReviews);
 
             }
+
             @Override
-            public void onFailure(Call<Movies> call,Throwable t) {
+            public void onFailure(@NonNull Call<Movies> call, @NonNull Throwable t) {
                 Log.d(DetailsActivity.class.getSimpleName(), t.getMessage());
 
             }
@@ -208,7 +209,7 @@ public class DetailsActivity extends MainActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(MOVIE_DETAILS_STATE, Parcels.wrap(moviesList));
-        outState.putParcelable("TRAILERS", Parcels.wrap(trailerAdapter));
+        outState.putParcelable("TRAILERS", Parcels.wrap(trailerResponse));
         outState.putParcelable("REVIEWS", Parcels.wrap(reviewResponse));
     }
 

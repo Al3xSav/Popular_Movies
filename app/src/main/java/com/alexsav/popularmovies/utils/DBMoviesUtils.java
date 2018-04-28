@@ -12,7 +12,7 @@ import static com.alexsav.popularmovies.utils.NetworkUtils.TOP_RATED;
 public class DBMoviesUtils {
     private static final String SELECTED_ITEM_MENU = "selected_item_menu";
 
-    public static void storeSelectedItem(@NonNull Context context,String sort) {
+    public static void storeSelectedItem(@NonNull Context context, String sort) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.apply();

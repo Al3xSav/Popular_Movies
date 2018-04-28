@@ -1,15 +1,15 @@
 package com.alexsav.popularmovies.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.alexsav.popularmovies.R;
-import com.alexsav.popularmovies.model.Movies;
-import com.alexsav.popularmovies.model.ReviewResponse;
-import com.alexsav.popularmovies.model.Reviews;
+import com.alexsav.popularmovies.model.*;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
 
@@ -23,21 +23,16 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         this.movies = movies;
     }
 
-    public interface ReviewListener {
-        void onReviewsClick(int index);
-    }
-
+    @NonNull
     @Override
-    public ReviewsAdapter.ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReviewsAdapter.ReviewViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         int layoutId = R.layout.reviews_item;
-        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        ReviewViewHolder reviewViewHolder = new ReviewViewHolder(view);
-        return reviewViewHolder;
-        //return new ReviewViewHolder(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(layoutId, viewGroup, false);
+        return new ReviewViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ReviewsAdapter.ReviewViewHolder  reviewViewHolder, int position) {
+    public void onBindViewHolder(@NonNull ReviewsAdapter.ReviewViewHolder reviewViewHolder, int position) {
         ReviewResponse reviewResponse = movies.getReviewResponse();
         Reviews reviews = reviewResponse.getReviews().get(position);
         reviewViewHolder.textViewAuthor.setText(reviews.getAuthor());
@@ -50,6 +45,10 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
             return 0;
         }
         return movies.getReviewResponse().getReviews().size();
+    }
+
+    public interface ReviewListener {
+        void onReviewsClick(int index);
     }
 
     protected class ReviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -65,7 +64,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
 
         @Override
         public void onClick(View v) {
-
             if (reviewListener != null) {
                 reviewListener.onReviewsClick(getAdapterPosition());
             }

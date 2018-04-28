@@ -8,33 +8,32 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
+
 import static com.alexsav.popularmovies.data.MoviesContract.FavoriteMoviesEntry.*;
 
 public class MoviesDetailsContentProvider extends ContentProvider {
 
 
     public static final int FAVORITES_MOVIE = 100;
-    public static final int FAVORITES_MOVIE_WITH_ID = 200;
+    public static final int FAVORITES_MOVIE_WITH_ID = 101;
 
-    public static final String UNKNOWN_URI = "Unknown uri: ";
-    public static final String INSERT_FAILED = "Failed to insert row to  ";
+    public static final String UNKNOWN_URI = "UNKNOWN URI: ";
+    public static final String INSERT_FAILED = "Failed to insert to ";
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
-    private MoviesDBHelper moviesDBHelper;
 
     static {
         sUriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.FAV_MOVIES_PATH, FAVORITES_MOVIE);
         sUriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.FAV_MOVIES_PATH + "/#", FAVORITES_MOVIE_WITH_ID);
     }
 
+    private MoviesDBHelper moviesDBHelper;
+
     @Override
     public boolean onCreate() {
         moviesDBHelper = new MoviesDBHelper(getContext());
         return true;
     }
-
 
     @Override
     public Cursor query(@Nullable Uri uri, String[] projection,
@@ -62,7 +61,9 @@ public class MoviesDetailsContentProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(@NonNull Uri uri) { return null; }
+    public String getType(@NonNull Uri uri) {
+        return null;
+    }
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
@@ -86,7 +87,7 @@ public class MoviesDetailsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(@NonNull Uri uri,String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = moviesDBHelper.getWritableDatabase();
         int deletedMovies;
         switch (sUriMatcher.match(uri)) {
@@ -105,7 +106,7 @@ public class MoviesDetailsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values,String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
 }
